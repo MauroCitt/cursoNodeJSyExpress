@@ -14,17 +14,41 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+//rutas
 app.get('/', (req, res) => {
   res.render('home', {
-    title: 'Curso de Node.js',
-    message: 'Nuestro primer layout con variables'
+    title: 'OpenWebinars',
+    message: 'Curso de NodeJS - Home'
   })
+  res.end()
 })
 
 app.get('/temario', (req, res) => {
   res.render('temario', {
-    title: 'Temario del curso',
+    title: 'OpenWebinars',
+    message: 'Curso de NodeJS - Temario'
+  })
+  res.end()
+
+})
+
+
+app.get('/:user', (req, res) => {
+  res.render('user', {
+    title: 'OpenWebinars',
+    message: `Bienvenido ${req.params.user}`
   })
 })
 
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
+// Manejador de error 404 (después de todas las rutas)
+app.use((req, res, next) => {
+  res.status(404).send('Página no encontrada');
+});
+
+
+
+
 app.listen('9000', () => console.log('Server running on port 9000'));
+
